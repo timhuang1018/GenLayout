@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -31,11 +32,16 @@ kotlin {
     
     sourceSets {
         val desktopMain by getting
+
+        iosMain.dependencies {
+            implementation(libs.ktorIOS)
+        }
         
         androidMain.dependencies {
             implementation(libs.compose.ui)
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktorAndroid)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -46,8 +52,9 @@ kotlin {
             implementation(compose.material)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
-
             implementation(libs.kotlinx.datetime)
+            implementation(libs.bundles.ktor)
+            implementation(libs.serialization)
         }
     }
 }

@@ -16,6 +16,11 @@ androidx-espresso-core = "3.5.1"
 kotlin = "1.9.20"
 junit = "4.13.2"
 kotlinxDatetime = "0.4.1"
+coroutinesVersion = "1.7.3"
+ktorVersion = "2.3.5"
+sqlDelightVersion = "1.5.5"
+serializationPlugin = "1.9.20"
+serializationX = "1.6.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -34,9 +39,22 @@ androidx-material = { group = "com.google.android.material", name = "material", 
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutinesVersion" }
+ktorCore = { module = "io.ktor:ktor-client-core", version.ref = "ktorVersion" }
+ktorContent = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorVersion" }
+ktorJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
+ktorAndroid = { module = "io.ktor:ktor-client-android", version.ref = "ktorVersion" }
+ktorIOS = { module = "io.ktor:ktor-client-ios", version.ref = "ktorVersion" }
+serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serializationX" }
+
 
 [plugins]
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serializationPlugin" }
+
+
+[bundles]
+ktor = ["ktorCore", "ktorContent", "ktorJson"]
