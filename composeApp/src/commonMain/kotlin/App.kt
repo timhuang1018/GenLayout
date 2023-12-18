@@ -3,8 +3,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,6 +49,30 @@ fun App() {
                     painterResource("compose-multiplatform.xml"),
                     null
                 )
+            }
+
+            //need a mutable list of strings
+            var messages by remember { mutableStateOf(listOf<String>()) }
+
+            var text by remember { mutableStateOf("") }
+
+            OutlinedTextField(
+                value = text,
+                onValueChange = { text = it },
+                label = { Text("Label") }
+            )
+
+            LazyColumn {
+                items(messages.size) { index ->
+                    Text(messages[index])
+                }
+            }
+
+            Button(onClick = {
+                messages = messages + text
+                text = ""
+            }) {
+                Text("Send Query")
             }
         }
     }
