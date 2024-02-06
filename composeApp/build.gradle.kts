@@ -29,6 +29,25 @@ kotlin {
             isStatic = true
         }
     }
+
+    @OptIn(org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "composeApp"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+                devServer = (devServer ?: org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply {
+                        // Serve sources to debug inside browser
+                        add(project.projectDir.path)
+                        add(project.projectDir.path + "/commonMain/")
+                        add(project.projectDir.path + "/wasmJsMain/")
+                    }
+                }
+            }
+        }
+        binaries.executable()
+    }
     
     sourceSets {
         val desktopMain by getting
@@ -53,7 +72,6 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(libs.kotlinx.datetime)
-            implementation(libs.bundles.ktor)
             implementation(libs.serialization)
         }
     }
@@ -109,4 +127,8 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+compose.experimental {
+    web.application {}
 }

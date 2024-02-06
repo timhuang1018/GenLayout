@@ -1,6 +1,7 @@
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,9 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
@@ -29,24 +28,20 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun App() {
     MaterialTheme {
-        var greetingText by remember { mutableStateOf("Hello World!") }
-        var showImage by remember { mutableStateOf(false) }
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = "Today's date is ${todaysDate()}",
-                modifier = Modifier.padding(20.dp),
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center
-            )
-            Button(onClick = {
-                greetingText = "Compose: ${Greeting().greet()}"
-                showImage = !showImage
-            }) {
-                Text(greetingText)
-            }
-            AnimatedVisibility(showImage) {
+
+
+        Column(
+            Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+
+            Row(
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)) {
                 Image(
-                    painterResource("compose-multiplatform.xml"),
+                    painterResource("settings.xml"),
                     null
                 )
             }
@@ -57,16 +52,12 @@ fun App() {
             var text by remember { mutableStateOf("") }
 
             OutlinedTextField(
+                modifier = Modifier.padding(vertical = 32.dp),
                 value = text,
                 onValueChange = { text = it },
                 label = { Text("Label") }
             )
 
-            LazyColumn {
-                items(messages.size) { index ->
-                    Text(messages[index])
-                }
-            }
 
             Button(onClick = {
                 messages = messages + text
@@ -74,6 +65,18 @@ fun App() {
             }) {
                 Text("Send Query")
             }
+
+            LazyColumn {
+                items(messages.size) { index ->
+                    Text(messages[index])
+                }
+            }
+
+//            Image(
+//                painterResource("camera.xml"),
+//                null
+//            )
+
         }
     }
 }
