@@ -1,33 +1,30 @@
-package data.network
+package tim.huang.genlayout.data.network
 
 import io.ktor.client.*
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.get
 import io.ktor.client.request.header
-import io.ktor.client.request.headers
 import io.ktor.client.statement.HttpResponse
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.json.Json
+import io.ktor.client.statement.bodyAsText
 
 object LlmApi {
     private val httpClient = HttpClient {
-        install(ContentNegotiation) {
-            json(Json {
-                ignoreUnknownKeys = true
-                useAlternativeNames = false
-            })
-        }
+
         defaultRequest {
             url("https://api.openai.com/")
             header("Authorization", "Bearer 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")
+            header("OpenAI-Beta", "assistants=v1")
         }
     }
 
-    suspend fun chat(): HttpResponse {
-        return httpClient.get("v1/chat/completions") {
-
+    suspend fun getAssistants(): HttpResponse {
+        return httpClient.get("v1/assistants") {
         }
+    }
+
+    suspend fun greeting(): String {
+        val response = httpClient.get("https://ktor.io/docs/")
+        return response.bodyAsText()
     }
 
 }

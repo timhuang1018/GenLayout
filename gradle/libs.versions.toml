@@ -1,7 +1,7 @@
 [versions]
 compose = "1.5.4"
-compose-plugin = "1.5.10"
-compose-compiler = "1.5.4"
+compose-plugin = "1.6.0-alpha01"
+compose-compiler = "1.5.8"
 agp = "8.1.4"
 android-minSdk = "24"
 android-compileSdk = "34"
@@ -15,9 +15,9 @@ androidx-test-junit = "1.1.5"
 androidx-espresso-core = "3.5.1"
 kotlin = "1.9.20"
 junit = "4.13.2"
-kotlinxDatetime = "0.4.0"
+kotlinxDatetime = "0.5.0"
 coroutinesVersion = "1.7.3"
-ktorVersion = "2.3.5"
+ktorVersion = "2.3.7"
 sqlDelightVersion = "1.5.5"
 serializationPlugin = "1.9.20"
 serializationX = "1.6.1"
@@ -46,6 +46,7 @@ ktorJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "
 ktorAndroid = { module = "io.ktor:ktor-client-android", version.ref = "ktorVersion" }
 ktorIOS = { module = "io.ktor:ktor-client-ios", version.ref = "ktorVersion" }
 serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serializationX" }
+openaiClient = { module =  "com.aallam.openai:openai-client", version = "3.6.2"  }
 
 
 [plugins]
