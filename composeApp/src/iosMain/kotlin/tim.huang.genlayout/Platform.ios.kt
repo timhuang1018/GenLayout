@@ -1,3 +1,5 @@
+package tim.huang.genlayout
+
 import platform.UIKit.UIDevice
 
 class IOSPlatform: Platform {
