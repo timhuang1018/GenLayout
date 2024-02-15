@@ -1,3 +1,5 @@
+package tim.huang.genlayout
+
 class Greeting {
     private val platform = getPlatform()
 

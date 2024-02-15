@@ -1,3 +1,5 @@
+package tim.huang.genlayout
+
 import android.os.Build
 
 class AndroidPlatform : Platform {

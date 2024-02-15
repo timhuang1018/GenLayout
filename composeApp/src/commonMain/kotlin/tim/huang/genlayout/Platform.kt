@@ -1,3 +1,5 @@
+package tim.huang.genlayout
+
 interface Platform {
     val name: String
 }
