@@ -1,9 +1,16 @@
 package tim.huang.genlayout.data.network
 
+import io.ktor.client.HttpClient
+import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsText
+
 actual fun createHttpClient(): WrappedHttpClient {
     return object : WrappedHttpClient {
+
+        val client = HttpClient()
+
         override suspend fun greeting(): String {
-            TODO("Not yet implemented")
+            return client.get("https://ktor.io/docs/").bodyAsText()
         }
     }
 }
