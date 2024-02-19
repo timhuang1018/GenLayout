@@ -51,6 +51,7 @@ kotlin {
     
     sourceSets {
         val desktopMain by getting
+        val wasmJsMain by getting
 
         iosMain.dependencies {
             implementation(libs.ktorIOS)
@@ -64,6 +65,8 @@ kotlin {
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.ktorCore)
+            implementation(libs.ktorJava)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -73,6 +76,11 @@ kotlin {
             implementation(compose.components.resources)
             implementation(libs.kotlinx.datetime)
             implementation(libs.serialization)
+            implementation(libs.bundles.ktor.common)
+        }
+
+        wasmJsMain.dependencies {
+            implementation(libs.bundles.ktor.common)
         }
     }
 }
@@ -119,7 +127,7 @@ android {
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "tim.huang.genlayout.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
