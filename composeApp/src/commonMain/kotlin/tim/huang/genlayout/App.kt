@@ -12,7 +12,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,7 +25,6 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
-import tim.huang.genlayout.data.network.createHttpClient
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -74,11 +72,6 @@ fun App() {
                 items(messages.size) { index ->
                     Text(messages[index])
                 }
-            }
-
-            //TODO test the greeting function on each platform
-            LaunchedEffect(Unit){
-                text = createHttpClient().greeting()
             }
 
 //            Image(
