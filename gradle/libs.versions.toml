@@ -18,6 +18,7 @@ junit = "4.13.2"
 kotlinxDatetime = "0.5.0"
 coroutinesVersion = "1.7.3"
 ktorVersion = "2.3.7"
+ktorWASM = "3.0.0-wasm2"
 sqlDelightVersion = "1.5.5"
 serializationPlugin = "1.9.20"
 serializationX = "1.6.1"
@@ -40,11 +41,18 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutinesVersion" }
-ktorCore = { module = "io.ktor:ktor-client-core", version.ref = "ktorVersion" }
-ktorContent = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorVersion" }
-ktorJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
-ktorAndroid = { module = "io.ktor:ktor-client-android", version.ref = "ktorVersion" }
-ktorIOS = { module = "io.ktor:ktor-client-ios", version.ref = "ktorVersion" }
+ktorCore = { module = "io.ktor:ktor-client-core", version.ref = "ktorWASM" }
+ktorContent = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorWASM" }
+ktorSerializationJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorWASM" }
+ktorJson = { group = "io.ktor", name = "ktor-client-json", version.ref = "ktorWASM" }
+ktorSerialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktorWASM" }
+ktorLogging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktorWASM" }
+ktorAndroid = { module = "io.ktor:ktor-client-android", version.ref = "ktorWASM" }
+ktorIOS = { module = "io.ktor:ktor-client-ios", version.ref = "ktorWASM" }
+ktorWASM = { module = "io.ktor:ktor-client-core", version.ref = "ktorWASM" }
+ktorJava = { module = "io.ktor:ktor-client-java", version.ref = "ktorWASM" }
+ktorOkHttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorWASM" }
+ktorCORS = { module = "io.ktor:ktor-server-cors", version.ref = "ktorWASM" }
 serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serializationX" }
 openaiClient = { module =  "com.aallam.openai:openai-client", version = "3.6.2"  }
 
@@ -58,4 +66,4 @@ serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref 
 
 
 [bundles]
-ktor = ["ktorCore", "ktorContent", "ktorJson"]
+ktor-common = ["ktorCore", "ktorJson", "ktorLogging", "ktorSerialization", "ktorContent", "ktorSerializationJson"]
