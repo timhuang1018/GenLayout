@@ -19,12 +19,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import genlayout.composeapp.generated.resources.Res
+import genlayout.composeapp.generated.resources.settings
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+
+
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -43,7 +47,7 @@ fun App() {
                 .fillMaxWidth()
                 .padding(16.dp)) {
                 Image(
-                    painterResource("settings.xml"),
+                    painterResource(Res.drawable.settings),
                     null
                 )
             }
