@@ -1,8 +1,8 @@
 [versions]
-compose = "1.5.4"
-compose-plugin = "1.6.0-alpha01"
+compose = "1.6.3"
+compose-plugin = "1.6.0"
 compose-compiler = "1.5.8"
-agp = "8.1.4"
+agp = "8.3.0"
 android-minSdk = "24"
 android-compileSdk = "34"
 android-targetSdk = "34"
@@ -59,6 +59,7 @@ openaiClient = { module =  "com.aallam.openai:openai-client", version = "3.6.2" 
 coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
 coilNetwork = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil" }
 firebaseAuth = { module = "dev.gitlive:firebase-auth", version = "1.11.1" }
+firebaseFirestore = { module = "dev.gitlive:firebase-firestore", version = "1.11.1" }
 
 
 [plugins]
