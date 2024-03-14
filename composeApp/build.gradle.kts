@@ -30,6 +30,17 @@ kotlin {
         }
     }
 
+    js(IR) {
+        moduleName = "composeApp"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+                experiments = mutableSetOf("topLevelAwait")
+            }
+        }
+        binaries.executable()
+    }
+
     @OptIn(org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "composeApp"
@@ -79,6 +90,14 @@ kotlin {
             implementation(libs.bundles.ktor.common)
         }
 
+        jsMain {
+            dependencies {
+                implementation(libs.bundles.ktor.common)
+                implementation(libs.firebaseAuth)
+                implementation(libs.firebaseFirestore)
+            }
+        }
+
         wasmJsMain.dependencies {
             implementation(libs.bundles.ktor.common)
         }
@@ -91,7 +110,7 @@ android {
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+    sourceSets["main"].resources.srcDirs("src/commonMain/composeResources")
 
     defaultConfig {
         applicationId = "tim.huang.genlayout"

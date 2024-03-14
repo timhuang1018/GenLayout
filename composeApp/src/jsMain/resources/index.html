@@ -2,11 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ImageViewer</title>
-    <script src="skiko.js"> </script>
+    <title>Table Order</title>
+    <script src="skiko.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<div id="g_id_onload"
+     data-client_id="309266418031-i0nvo8b2kusc4kd34h219jom5eae7flh.apps.googleusercontent.com"
+     data-callback="handleCredentialResponse"
+>
+</div>
 <canvas id="ComposeTarget"></canvas>
-<script src="composeApp.js"> </script>
+<script src="composeApp.js"></script>
+<div id="googleButton"
+     class="g_id_signin centered"
+     data-type="standard"
+     data-size="large"
+     data-theme="outline"
+     data-shape="rectangular"
+     data-logo_alignment="left">
+
+</div>
+<script type="application/javascript">
+    function handleCredentialResponse(response) {
+        console.log(response);
+    }
+
+
+</script>
 </body>
 </html>
