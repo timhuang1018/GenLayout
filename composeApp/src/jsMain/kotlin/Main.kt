@@ -1,21 +1,32 @@
-import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.CanvasBasedWindow
-import dev.gitlive.firebase.auth.GoogleAuthProvider
-import io.ktor.client.*
-import io.ktor.client.engine.js.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
+import kotlinx.browser.document
 import org.jetbrains.skiko.wasm.onWasmReady
+import org.w3c.dom.HTMLCanvasElement
 import tim.huang.genlayout.App
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
 
-    GoogleAuthProvider
+    var hasLogin by mutableStateOf(false)
+
     onWasmReady {
-        CanvasBasedWindow("ImageViewer") {
-            App()
+
+        CanvasBasedWindow("ComposeTarget") {
+            LaunchedEffect(hasLogin){
+                document.getElementById("ComposeTarget")?.let {
+                    val canvas = it as HTMLCanvasElement
+                    canvas.style.display = if (hasLogin) "block" else "none"
+                }
+            }
+
+            if (hasLogin){
+                App()
+            }
         }
     }
 }

@@ -4,6 +4,9 @@ import io.ktor.utils.io.core.String
 import kotlin.io.encoding.Base64.Default.decode
 import kotlin.io.encoding.ExperimentalEncodingApi
 
+/**
+ * Decode a JWT token into a pair of header and payload. The data is in json format.
+ */
 @Throws(IllegalArgumentException::class)
 fun decodeJwt(token: String): Pair<String, String> {
     val parts = token.split(".")

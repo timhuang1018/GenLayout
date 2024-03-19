@@ -9,8 +9,8 @@
 <body>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <div id="g_id_onload"
-     data-client_id="309266418031-i0nvo8b2kusc4kd34h219jom5eae7flh.apps.googleusercontent.com"
-     data-callback="handleCredentialResponse"
+     data-client_id="651817867687-ahri5ng01cnj023gqtl1d2632i1irdkc.apps.googleusercontent.com"
+     data-callback="handleResponse"
 >
 </div>
 <canvas id="ComposeTarget"></canvas>
@@ -24,11 +24,11 @@
      data-logo_alignment="left">
 
 </div>
-<script type="application/javascript">
-    function handleCredentialResponse(response) {
-        console.log(response);
-    }
 
+<script type="application/javascript">
+    function handleResponse(response) {
+        composeApp.handleCredentialResponse(response);
+    }
 
 </script>
 </body>
