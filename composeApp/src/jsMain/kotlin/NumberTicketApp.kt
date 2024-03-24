@@ -1,18 +1,16 @@
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -34,8 +32,11 @@ fun NumberDisplayScreen(number: Int, defaultDigits: Int = 3) {
     LED(number, defaultDigits)
 }
 
+/**
+ * each LED number should have 7 sticks, and the height is 2 times of the width - strokeWidth
+ */
 @Composable
-fun LED(number: Int, defaultDigits: Int, widthUnit: Dp = 30.dp) {
+fun LED(number: Int, defaultDigits: Int, strokeWidth: Dp = 30.dp) {
     //TODO consider defaultDigits
     Box(
         modifier = Modifier
@@ -43,15 +44,44 @@ fun LED(number: Int, defaultDigits: Int, widthUnit: Dp = 30.dp) {
             .fillMaxWidth()
     ){
 
-
-        Row  {
+        Layout(content = {
             for (singleValue in number.toString()){
                 val ledNumber = singleValue.toString().toInt().toLEDNumber()
                 LEDNumberDisplay(modifier = Modifier
-                    .weight(1f)
-                    .padding(32.dp)
-                    .fillMaxSize(), ledNumber, widthUnit)
+                    .fillMaxSize(), ledNumber, strokeWidth)
+            }
+        }){ measurables, constraints ->
 
+            val padding = 0.04f * constraints.maxWidth
+            val singleWidth = ((constraints.maxWidth - padding * (measurables.size + 1)) / measurables.size).let { width ->
+                //check if need to scale so that the height is not exceed the constraints
+                val scale: Float = if (width * 2 - strokeWidth.roundToPx() > (constraints.maxHeight - 2 * padding) ) (constraints.maxHeight - 2 * padding) / (width * 2 - strokeWidth.roundToPx())  else 1f
+                width * scale
+            }
+
+            val singleHeight = singleWidth * 2 - strokeWidth.roundToPx()
+
+            val itemConstraints = constraints.copy(
+                minWidth = singleWidth.toInt() ,
+                maxWidth = singleWidth.toInt(),
+                minHeight = singleHeight.toInt() ,
+                maxHeight = singleHeight.toInt(),
+            )
+            val placeables = measurables.map { measurable ->
+                // Measure each children
+                measurable.measure(itemConstraints)
+            }
+
+            val vacancyWidth = constraints.maxWidth - (singleWidth * placeables.size + padding * (placeables.size + 1))
+
+            layout(constraints.maxWidth, constraints.maxHeight){
+
+                var xPosition = padding + vacancyWidth / 2
+                val yPosition = (constraints.maxHeight - singleHeight) / 2
+                placeables.forEachIndexed { index, placeable ->
+                    placeable.place(x = xPosition.toInt(), y = yPosition.toInt())
+                    xPosition += singleWidth + padding
+                }
             }
         }
     }
@@ -120,18 +150,6 @@ fun LEDNumberDisplay(modifier: Modifier = Modifier, ledNumber: LEDNumber, widthU
                 }
             }
         }
-        //TODO remove draw path of canvas border
-        drawPath(
-            Path().apply {
-                moveTo(0f, 0f)
-                lineTo(size.width, 0f)
-                lineTo(size.width, size.height)
-                lineTo(0f, size.height)
-                close()
-            },
-            color = Color.Green,
-            style = Stroke(width = 3f)
-        )
     }
 }
 
