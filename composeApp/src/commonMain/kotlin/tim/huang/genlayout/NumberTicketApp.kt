@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import tim.huang.genlayout.model.NumberTicketVendorConsoleConfigs
+import tim.huang.genlayout.ui.StrokeWidthControl
 
 
 @Composable
@@ -59,11 +60,11 @@ fun VendorConsole() {
             Column {
                 when (selectedTab) {
                     0 -> {
-                        // Display buttons for Number Display Screen
-                        Column {
-
-                        }
-
+                        StrokeWidthControl(
+                            config.strokeWidth,
+                            { config = config.run { copy(strokeWidth = strokeWidth + 2.dp) } },
+                            { config = config.run { copy(strokeWidth = strokeWidth - 2.dp) } },
+                        )
                         // Add more buttons as needed
                     }
                     // Add more cases as needed
@@ -120,10 +121,10 @@ fun LED(number: Int, defaultDigits: Int, strokeWidth: Dp = 30.dp) {
             val singleHeight = singleWidth * 2 - strokeWidth.roundToPx()
 
             val itemConstraints = constraints.copy(
-                minWidth = singleWidth.toInt() ,
-                maxWidth = singleWidth.toInt(),
-                minHeight = singleHeight.toInt() ,
-                maxHeight = singleHeight.toInt(),
+                minWidth = singleWidth.toInt().coerceAtLeast(0) ,
+                maxWidth = singleWidth.toInt().coerceAtLeast(0),
+                minHeight = singleHeight.toInt().coerceAtLeast(0) ,
+                maxHeight = singleHeight.toInt().coerceAtLeast(0),
             )
             val placeables = measurables.map { measurable ->
                 // Measure each children
