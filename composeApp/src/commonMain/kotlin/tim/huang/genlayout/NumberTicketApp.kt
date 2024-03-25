@@ -1,5 +1,10 @@
 package tim.huang.genlayout
 
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -88,14 +93,14 @@ fun NumberDisplayScreen(
     defaultDigits: Int = 3,
     config: NumberTicketVendorConsoleConfigs
 ) {
-    LED(number, defaultDigits, config.strokeWidth)
+    LED(number, defaultDigits, config.strokeWidth, config.isConnecting)
 }
 
 /**
  * each LED number should have 7 sticks, and the height is 2 times of the width - strokeWidth
  */
 @Composable
-fun LED(number: Int, defaultDigits: Int, strokeWidth: Dp = 30.dp) {
+fun LED(number: Int, defaultDigits: Int, strokeWidth: Dp = 30.dp, isConnecting: Boolean = true) {
     //TODO consider defaultDigits
     Box(
         modifier = Modifier
@@ -131,6 +136,7 @@ fun LED(number: Int, defaultDigits: Int, strokeWidth: Dp = 30.dp) {
                 measurable.measure(itemConstraints)
             }
 
+
             val vacancyWidth = constraints.maxWidth - (singleWidth * placeables.size + padding * (placeables.size + 1))
 
             layout(constraints.maxWidth, constraints.maxHeight){
@@ -141,6 +147,26 @@ fun LED(number: Int, defaultDigits: Int, strokeWidth: Dp = 30.dp) {
                     placeable.place(x = xPosition.toInt(), y = yPosition.toInt())
                     xPosition += singleWidth + padding
                 }
+            }
+        }
+
+        if (isConnecting){
+
+            val colorLight = Color.Red
+            val colorDark = Color.Black
+
+            val animatedColor by rememberInfiniteTransition().animateColor(
+                initialValue = colorDark,
+                targetValue = colorLight,
+                animationSpec = infiniteRepeatable(animation = tween(1500), repeatMode = RepeatMode.Reverse)
+            )
+
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                drawCircle(
+                    color = animatedColor,
+                    radius = strokeWidth.toPx() / 2,
+                    center = Offset(size.width - strokeWidth.toPx(), strokeWidth.toPx())
+                )
             }
         }
     }

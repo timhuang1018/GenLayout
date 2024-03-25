@@ -5,4 +5,5 @@ import androidx.compose.ui.unit.dp
 
 data class NumberTicketVendorConsoleConfigs(
     val strokeWidth: Dp = 30.dp,
+    val isConnecting: Boolean = true,
 )
