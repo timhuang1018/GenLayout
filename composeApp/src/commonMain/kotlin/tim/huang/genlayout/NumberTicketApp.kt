@@ -1,9 +1,21 @@
+package tim.huang.genlayout
+
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -13,6 +25,8 @@ import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import tim.huang.genlayout.model.NumberTicketVendorConsoleConfigs
+import tim.huang.genlayout.ui.StrokeWidthControl
 
 
 @Composable
@@ -23,13 +37,58 @@ fun NumberTicketApp() {
 
 @Composable
 fun VendorConsole() {
+    var selectedTab by remember { mutableStateOf(0) }
+    var config by remember {
+        mutableStateOf(NumberTicketVendorConsoleConfigs())
+    }
 
-    NumberDisplayScreen(396)
+    Column(modifier = Modifier.background(Color.LightGray)) {
+        TabRow(
+            modifier = Modifier.height(32.dp),
+            selectedTabIndex = selectedTab
+        ) {
+            Tab(
+                selected = selectedTab == 0,
+                onClick = { selectedTab = 0 },
+            ) {
+                Text("Number Display Screen")
+            }
+            // Add more tabs as needed
+        }
+
+        Row {
+            Column {
+                when (selectedTab) {
+                    0 -> {
+                        StrokeWidthControl(
+                            config.strokeWidth,
+                            { config = config.run { copy(strokeWidth = strokeWidth + 2.dp) } },
+                            { config = config.run { copy(strokeWidth = strokeWidth - 2.dp) } },
+                        )
+                        // Add more buttons as needed
+                    }
+                    // Add more cases as needed
+                }
+            }
+
+            Box(
+                modifier = Modifier.fillMaxSize().background(Color.LightGray)
+            ) {
+                when (selectedTab) {
+                    0 -> NumberDisplayScreen(396, config = config)
+                    // Add more cases as needed
+                }
+            }
+        }
+    }
 }
-
 @Composable
-fun NumberDisplayScreen(number: Int, defaultDigits: Int = 3) {
-    LED(number, defaultDigits)
+fun NumberDisplayScreen(
+    number: Int,
+    defaultDigits: Int = 3,
+    config: NumberTicketVendorConsoleConfigs
+) {
+    LED(number, defaultDigits, config.strokeWidth)
 }
 
 /**
@@ -62,10 +121,10 @@ fun LED(number: Int, defaultDigits: Int, strokeWidth: Dp = 30.dp) {
             val singleHeight = singleWidth * 2 - strokeWidth.roundToPx()
 
             val itemConstraints = constraints.copy(
-                minWidth = singleWidth.toInt() ,
-                maxWidth = singleWidth.toInt(),
-                minHeight = singleHeight.toInt() ,
-                maxHeight = singleHeight.toInt(),
+                minWidth = singleWidth.toInt().coerceAtLeast(0) ,
+                maxWidth = singleWidth.toInt().coerceAtLeast(0),
+                minHeight = singleHeight.toInt().coerceAtLeast(0) ,
+                maxHeight = singleHeight.toInt().coerceAtLeast(0),
             )
             val placeables = measurables.map { measurable ->
                 // Measure each children
